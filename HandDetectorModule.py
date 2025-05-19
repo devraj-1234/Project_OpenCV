@@ -1,0 +1,70 @@
+import cv2
+import mediapipe as mp
+import time
+
+class HandDetector():
+    def __init__(self, mode = False, maxHands = 2, detectionCon = 0.5, trackCon = 0.5):
+        self.mode = mode
+        self.maxHands = maxHands
+        self.detectionCon = detectionCon
+        self.trackCon = trackCon
+
+        self.mpHands = mp.solutions.hands
+        self.hands = self.mpHands.Hands()
+        self.mpDraw = mp.solutions.drawing_utils
+
+    def findHands(self, img, draw = True):
+        imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        self.results = self.hands.process(imgRGB)
+        #print(results.multi_hand_landmarks)
+
+        if self.results.multi_hand_landmarks:
+            for handLms in self.results.multi_hand_landmarks:
+                if draw:
+                    self.mpDraw.draw_landmarks(img, handLms, self.mpHands.HAND_CONNECTIONS)
+        
+        return img
+    
+    def findPosition(self, img, handNo = 0, draw = True):
+        
+        lmList = []
+        if self.results.multi_hand_landmarks:
+            myHand = self.results.multi_hand_landmarks[handNo]
+
+            for id, lm in enumerate(myHand.landmark):
+                h, w, c = img.shape                          #Webcam's actual resolution
+                cx, cy = int(lm.x * w), int(lm.y * h)        #Converting normalized (ratio-ed) coordinates to actual coordinates wrt current webcam resolution      
+                lmList.append([id, cx, cy])
+                if draw:
+                    if id == 0:
+                        cv2.circle(img, (cx, cy), 25, (255, 255, 255), cv2.FILLED)      #Testing by drawing circle at wrist, looks cool tho
+                    if id != 0 and id%4 == 0:
+                        cv2.circle(img, (cx, cy), 5, (255, 0, 0), cv2.FILLED)
+        
+        return lmList
+
+def main():
+    pTime = 0
+    cap = cv2.VideoCapture(0)
+    detector = HandDetector()
+
+    while True:
+        success, img = cap.read()
+
+        img = detector.findHands(img)
+        lmList = detector.findPosition(img)
+
+        if len(lmList) != 0:
+            print(lmList[4])
+        cTime = time.time()
+        fps = 1/(cTime-pTime)
+        pTime = cTime
+
+        cv2.putText(img, f"FPS : {int(fps)}", (20, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
+
+        cv2.imshow("Sample Test", img)
+        cv2.waitKey(1)
+
+
+if __name__ == "__main__":
+    main()
