@@ -11,10 +11,8 @@ while True:
     img = detector.findHands(img)
     lmList = detector.findPosition(img)
     if len(lmList) != 0:
-        print(lmList[4])
+        print("Nigga put your hand down!")
     cTime = time.time()
     fps = 1/(cTime-pTime)
     pTime = cTime
-    cv2.putText(img, f"FPS : {int(fps)}", (20, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
-    cv2.imshow("Sample Test", img)
-    cv2.waitKey(1)
+    
