@@ -34,8 +34,11 @@ class HandDetector():
                     self.handTypes.append(label)                
                     h, w, _ = img.shape                         
                     lm = handLms.landmark[0]                    
-                    cx, cy = int(lm.x * w), int(lm.y * h)       
-                    cv2.putText(img, label, (cx - 30, cy - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)  
+                    cx, cy = int(lm.x * w), int(lm.y * h)      
+                    if label == "Right": 
+                        cv2.putText(img, "Left", (cx - 30, cy - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)  
+                    else :
+                        cv2.putText(img, "Right", (cx - 30, cy - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
         
         return img
     

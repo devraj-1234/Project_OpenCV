@@ -1,0 +1,57 @@
+import cv2
+import os
+import mediapipe as mp
+import cvzone
+from cvzone.SelfiSegmentationModule import SelfiSegmentation
+import time
+import HandDetectorModule as htm
+import FaceDetectionModule as fdm
+
+listImg = os.listdir("backgrounds")
+imgList = []
+for imgPath in listImg:
+    img = cv2.imread(f"backgrounds/{imgPath}")
+    imgList.append(img)
+
+imgIndex = 0
+
+pTime = 0
+cap = cv2.VideoCapture(0)
+face_detector = fdm.FaceDetector()
+hand_detector = htm.HandDetector()
+segmentor = SelfiSegmentation()
+x_history = []
+max_history = 10
+
+while True:
+    success, img = cap.read()
+    img = segmentor.removeBG(img, imgList[imgIndex % len(imgList)])
+
+    img, bboxes = face_detector.findFaces(img)
+    img = hand_detector.findHands(img)
+    lmList = hand_detector.findPosition(img)
+    if len(lmList) != 0:
+        x_history.append(lmList[8][1])
+        if len(x_history) > max_history:
+            x_history.pop(0)
+        
+        if len(x_history) == max_history:       #Swiping controls, value '200' may be changed for sensitivity
+            dx = x_history[-1] - x_history[0]
+            if dx > 200:
+                #print("Right swipe")
+                imgIndex += 1
+                x_history.clear()
+            elif dx < -200:
+                #print("Left swipe")
+                imgIndex -= 1
+                x_history.clear()
+
+    cTime = time.time()
+    fps = 1 / (cTime - pTime)
+    pTime = cTime
+    cv2.putText(img, f"FPS : {int(fps)}", (20, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
+    cv2.imshow("Sample Test", img)
+    key = cv2.waitKey(1)
+
+    if key == ord('q'):
+        break
