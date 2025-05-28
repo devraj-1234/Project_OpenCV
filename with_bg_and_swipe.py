@@ -65,6 +65,12 @@ while True:
     if key == ord('q'):
         break
 
+    if key == ord('a'):
+        imgIndex -= 1
+
+    if key == ord('d'):
+        imgIndex += 1
+
 
 cap.release()
 cv2.destroyAllWindows()
