@@ -27,7 +27,7 @@ x_history = []
 max_history = 10
 
 last_switch_time = 0
-cooldown = 1
+cooldown = 2
 
 while True:
     success, img = cap.read()
