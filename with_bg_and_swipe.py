@@ -31,9 +31,14 @@ cooldown = 2
 
 while True:
     success, img = cap.read()
+
+    if not success or img is None:
+        continue
+
     img = segmentor.removeBG(img, imgList[imgIndex % len(imgList)])
 
     img, bboxes = face_detector.findFaces(img)
+    #print(bboxes)
     img = hand_detector.findHands(img)
     lmList = hand_detector.findPosition(img)
     if len(lmList) != 0:
@@ -41,7 +46,7 @@ while True:
         if len(x_history) > max_history:
             x_history.pop(0)
         
-        if len(x_history) == max_history and time.time() - last_switch_time > cooldown:       #Swiping controls, value '200' may be changed for sensitivity
+        if len(x_history) == max_history and time.time() - last_switch_time > cooldown:       #Swiping controls, value 'cooldown' may be changed for sensitivity
             dx = x_history[-1] - x_history[0]
             if dx > 200:
                 #print("Right swipe")

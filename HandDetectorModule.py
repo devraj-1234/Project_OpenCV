@@ -3,7 +3,7 @@ import mediapipe as mp
 import time
 
 class HandDetector():
-    def __init__(self, mode = False, maxHands = 2, detectionCon = 0.5, trackCon = 0.5):
+    def __init__(self, mode = False, maxHands = 2, detectionCon = 0.5, trackCon = 0.5):         #Instancing all necessary libraries
         self.mode = mode
         self.maxHands = maxHands
         self.detectionCon = detectionCon
@@ -19,13 +19,13 @@ class HandDetector():
         self.mpDraw = mp.solutions.drawing_utils
         self.handTypes = []                                     
 
-    def findHands(self, img, draw = True):
+    def findHands(self, img, draw = True):                                     
         imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        self.results = self.hands.process(imgRGB)
-        self.handTypes = []                                     
+        self.results = self.hands.process(imgRGB)             #MediaPipe detection begins
+        self.handTypes = []                                   #New list instantiated for each frame processed
 
         if self.results.multi_hand_landmarks:
-            for idx, handLms in enumerate(self.results.multi_hand_landmarks):
+            for idx, handLms in enumerate(self.results.multi_hand_landmarks):       #loop over detected hands
                 if draw:
                     self.mpDraw.draw_landmarks(img, handLms, self.mpHands.HAND_CONNECTIONS)
                 
@@ -34,10 +34,10 @@ class HandDetector():
                     self.handTypes.append(label)                
                     h, w, _ = img.shape                         
                     lm = handLms.landmark[0]                    
-                    cx, cy = int(lm.x * w), int(lm.y * h)      
-                    if label == "Right": 
+                    cx, cy = int(lm.x * w), int(lm.y * h)                           #conversion of normalized coords to actual coords as per the output display res  
+                    if label == "Right" and draw == True: 
                         cv2.putText(img, "Left", (cx - 30, cy - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)  
-                    else :
+                    elif label == "Left" and draw == True:
                         cv2.putText(img, "Right", (cx - 30, cy - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
         
         return img
@@ -53,11 +53,12 @@ class HandDetector():
                 lmList.append([id, cx, cy])
                 if draw:
                     if id == 0:
-                        cv2.circle(img, (cx, cy), 25, (255, 255, 255), cv2.FILLED)
+                        cv2.circle(img, (cx, cy), 25, (255, 255, 255), cv2.FILLED)          #Wrist colored white    
                     if id != 0 and id % 4 == 0:
-                        cv2.circle(img, (cx, cy), 5, (255, 0, 0), cv2.FILLED)
+                        cv2.circle(img, (cx, cy), 5, (255, 0, 0), cv2.FILLED)               #Finger tips colored blue
+                                                                                            #Rest colored red by default as in the in-built draw_landmarks() function
 
-        return lmList
+        return lmList       #list of lists, each list containing [id, x, y] where id = idx of landmark (refer landmarks indexing convention in 'hand_landmarks.png'), x and y = x and y coords of the landmark
 
 def main():
     pTime = 0
