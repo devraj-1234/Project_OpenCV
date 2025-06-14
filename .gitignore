@@ -1,5 +1,4 @@
 venv/
-hand_cricket.py
 env/
 .venv/
 Targets and Tutorials.txt
@@ -8,3 +7,4 @@ filters/
 haarcascade_frontalface_default.xml
 filters.py
 finger_counting.py
+finger_counting_actual.py
