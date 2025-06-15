@@ -10,7 +10,6 @@ hand_detector = htm.HandDetector()          #Instancing the HandDetector class
 
 
 
-
 def find_score(label, handList):            #Function to evaluate score from hand gesture, label specifies hand position
     fingers = []
     tipIds = [8, 12, 16, 20]
@@ -71,7 +70,7 @@ def find_score(label, handList):            #Function to evaluate score from han
 
 
 scores = {'Left' : 0, 'Right' : 0}                  #Dictionary to store scores of both hands
-curr_batter = 'Left'                                #Current batter
+curr_batter = None                           #Current batter
 waitingForValidInput = True                         #State variable to take input, only when both wrists show a non-zero value/run (You are not Babar Azam, why play dots?)
 first_innings_score = 0                             #Sets target for second innings
 gameOver = False                                    #Variable to check whether both innings are over
@@ -79,13 +78,18 @@ last_scored_time = 0                                #Variable to store move time
 cooldown_duration = 2                               #Cool-down variable, can be changed to improve UX
 innings = 1                                         #Innings variable, 1 for first innings, 2 for second
 waiting_for_second_innings = False                  #When first innings is over, this remains false until ENTER is pressed, to start second innings smoothly
-game_start = 0                                      #To store state of game, 0 for start, 1 for in progress, changed from 0 to 1 when SPACE is pressed
+game_start = 0 
+mode_of_toss_chosen = False                                     #To store state of game, 0 for start, 1 for in progress, changed from 0 to 1 when SPACE is pressed
 toss_made = False
-toss_winner = None
+tossing = False
+toss_winner = None 
 toss_choice_made = False
 random_toss = False
 manual_toss = False
-
+waiting_for_bat_bowl_choice = False
+toss_detected = False
+toss_detected_time = 0
+left_choice = ""
 
 
 while True:
@@ -103,14 +107,78 @@ while True:
     if game_start == 0:
         cv2.putText(img, "Press Space to start the game", (100, 100), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
-    '''
-    if game_start == 1 and not toss_made:
+ 
+    if game_start == 1 and not mode_of_toss_chosen and not toss_made:
         cv2.putText(img, "Press 'Z' for Random PC Toss", (80, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (255, 255, 255), 2)
         cv2.putText(img, "Press 'X' for Manual Hand Toss", (80, 140), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (255, 255, 255), 2)
-    '''
+ 
+    if random_toss and tossing and mode_of_toss_chosen and not toss_made:
+        elapsed_time = time.time() - toss_message_start_time
+        if elapsed_time < 5:
+            cv2.putText(img, "Tossing...", (200, 200), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 255, 255), 3)
+
+        else:
+            toss_winner = random.choice(['Left', 'Right'])
+            cv2.putText(img, f"{toss_winner} wins the toss!", (150, 240), cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 255, 0), 3)
+            # You can then decide batting/fielding, or wait for user to press a key to proceed
+            tossing = False
+            cv2.putText(img, "Press 'B' to bat, 'F' to field", (80, 280), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 0, 0), 2)
+            waiting_for_bat_bowl_choice = True
+            #last_scored_time = time.time()
+            #toss_made = True
+
+
+    elif manual_toss and not toss_choice_made and not toss_made:
+        cv2.putText(img, "Left player: Press 'H' for Heads or 'L' for Tails", (40, 200), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 255), 2)
+
+    elif manual_toss and toss_choice_made and not toss_detected and not toss_made:
+        elapsed_time = time.time() - toss_message_start_time
+        if elapsed_time >= 3 :
+            cv2.putText(img, "Manual Toss: Show numbers on both hands", (80, 180),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 255), 2)
+
+            if len(handsList) == 2:
+                dict1 = handsList[0]
+                dict2 = handsList[1]
+
+                if dict1['lmList'][0][1] < dict2['lmList'][0][1]:
+                    leftHand = dict1['lmList']
+                    rightHand = dict2['lmList']
+                else:
+                    leftHand = dict2['lmList']
+                    rightHand = dict1['lmList']
+
+                left_toss = find_score("Left", leftHand)[1]
+                right_toss = find_score("Right", rightHand)[1]
+
+                if left_toss != 0 and right_toss != 0:
+                  total = left_toss + right_toss
+                  toss_result = 'Heads' if total % 2 == 1 else 'Tails'
+
+                  if toss_result == left_choice:
+                      toss_winner = 'Left'
+                  else:
+                      toss_winner = 'Right'
+
+                  toss_detected = True
+                  waiting_for_bat_bowl_choice = True
+                  toss_detection_time = time.time()
+
+    elif waiting_for_bat_bowl_choice and not toss_made:
+        cv2.putText(img, f"{toss_winner} won the toss!", (150, 200), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 0), 2)
+        cv2.putText(img, "Press 'B' to Bat or 'F' to Field", (120, 250), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 255), 2)
+
+    elif toss_detected and time.time() - toss_detection_time < 7 and not toss_made:
+        cv2.putText(img, f"Toss Result: {toss_result}", (180, 190), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 0), 2)
+        cv2.putText(img, f"{toss_winner} wins the toss!", (150, 230), cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 255, 0), 3)
+
+    elif toss_detected and time.time() - toss_detection_time >= 7:
+        #waiting_for_bat_bowl_choice = True
+        #manual_toss = False
+        toss_made = True
     
 
-    if not gameOver and currentTime - last_scored_time > cooldown_duration and not waiting_for_second_innings and game_start == 1:
+    if not gameOver and currentTime - last_scored_time > cooldown_duration and not waiting_for_second_innings and game_start == 1 and toss_made:
 
         if len(handsList) == 2:
             dict1 = handsList[0]
@@ -178,10 +246,10 @@ while True:
 
 
     # Prompt users to show hand gestures after cooldown
-    elif waitingForValidInput and not waiting_for_second_innings and not gameOver and game_start == 1:
+    elif waitingForValidInput and not waiting_for_second_innings and not gameOver and game_start == 1 and toss_made:
         cv2.putText(img, "Show your hand gestures now!", (100, 130), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 102, 255), 2)
 
-    if game_start == 1 and not waiting_for_second_innings:  
+    if game_start == 1 and not waiting_for_second_innings and toss_made:  
         cv2.putText(img, f"Score : {scores[curr_batter]}", (20, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
     
     if innings == 2:
@@ -198,11 +266,22 @@ while True:
         last_scored_time = time.time()
         scores = {'Left': 0, 'Right': 0}
         waitingForValidInput = True
-        curr_batter = 'Left'
+        curr_batter = None
         innings = 1
         waiting_for_second_innings = False
         first_innings_score = 0
         game_start = 0
+        mode_of_toss_chosen = False                                     #To store state of game, 0 for start, 1 for in progress, changed from 0 to 1 when SPACE is pressed
+        toss_made = False
+        tossing = False
+        toss_winner = None 
+        toss_choice_made = False
+        random_toss = False
+        manual_toss = False
+        waiting_for_bat_bowl_choice = False
+        toss_detected = False
+        toss_detected_time = 0
+        left_choice = ""
 
     elif key == 13: # ENTER KEY
         if waiting_for_second_innings:
@@ -211,6 +290,50 @@ while True:
 
     elif key == 32:
         game_start = 1
+
+    elif key == ord('z') and game_start == 1 and not random_toss:
+        random_toss = True
+        tossing = True
+        mode_of_toss_chosen = True
+        toss_message_start_time = time.time()
+
+    
+    elif key == ord('x') and game_start == 1 and not manual_toss:
+        manual_toss = True
+        toss_detected = False
+        mode_of_toss_chosen = True
+        toss_choice_made = False
+        left_choice = ""
+
+
+    elif waiting_for_bat_bowl_choice:
+        if key == ord('b'):
+            curr_batter = toss_winner
+            waiting_for_bat_bowl_choice = False
+            game_start = 1
+            last_scored_time = time.time()
+            toss_made = True
+
+        elif key == ord('f'):
+            curr_batter = 'Right' if toss_winner == 'Left' else 'Left'
+            waiting_for_bat_bowl_choice = False
+            game_start = 1
+            last_scored_time = time.time()
+            toss_made = True
+
+
+    
+    elif manual_toss and not toss_choice_made and key == ord('h'):
+        left_choice = 'Heads'
+        right_choice = 'Tails'
+        toss_choice_made = True
+        toss_message_start_time = time.time()
+
+    elif manual_toss and not toss_choice_made and key == ord('l'):
+        left_choice = 'Tails'
+        right_choice = 'Heads'
+        toss_choice_made = True
+        toss_message_start_time = time.time()
 
     elif key == ord('q'):
         break
