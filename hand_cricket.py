@@ -93,6 +93,14 @@ waiting_for_bat_bowl_choice = False                 #To manage bat or field choi
 toss_detected = False                               #For manual toss, flag for toss detection
 toss_detected_time = 0                              #For cool-down purposes in manual toss
 left_choice = ""                                    #To store Heads or Tails for the left player and the right player automatically gets assigned the opposite
+post_input_buffer = 1.5                             #Buffer before countdown to move starts
+input_processed_time = 0                            #To evaluate time for the buffer above
+score_updated = False                               #Flag to check whether the score has been updated or not
+# Anti-Cheat Addition
+left_move_time = 0
+right_move_time = 0
+move_time_threshold = 0.5  # seconds
+
 
 
 ''' <--- Game loop, all of it occurs here --->'''
@@ -118,15 +126,20 @@ while True:
         cv2.putText(img, "Press 'X' for Manual Hand Toss", (80, 140), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (255, 255, 255), 2)
 
 
+
     ''' <--- Random tossing ---> '''
  
-    if random_toss and tossing and mode_of_toss_chosen and not toss_made:           #Random toss block
+    if random_toss and tossing and mode_of_toss_chosen and not toss_made and toss_choice_made:           #Random toss block
         elapsed_time = time.time() - toss_message_start_time
         if elapsed_time < 5:
             cv2.putText(img, "Tossing...", (200, 200), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 255, 255), 3)
 
         else:
-            toss_winner = random.choice(['Left', 'Right'])
+            t = random.choice(['Heads', 'Tails'])
+            if t == left_choice:
+                toss_winner = 'Left'
+            else:
+                toss_winner = 'Right'
             cv2.putText(img, f"{toss_winner} wins the toss!", (150, 240), cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 255, 0), 3)
             # You can then decide batting/fielding, or wait for user to press a key to proceed
             tossing = False
@@ -140,8 +153,8 @@ while True:
 
         ''' <--- Manual tossing --->'''
 
-    elif manual_toss and not toss_choice_made and not toss_made:                    #Manual toss block, choose Heads or Tails for the left player and the right player automatically gets assigned the opposite
-        cv2.putText(img, "Left player: Press 'H' for Heads or 'L' for Tails", (40, 200), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 255), 2)
+    elif (manual_toss or random_toss) and not toss_choice_made and not toss_made:                    #Manual toss block, choose Heads or Tails for the left player and the right player automatically gets assigned the opposite
+        cv2.putText(img, "Left player: Press 'H' for Heads or 'T' for Tails", (40, 200), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 255), 2)
 
     elif manual_toss and toss_choice_made and not toss_detected and not toss_made:  #Manual toss block, detect the players' fingers to toss
         elapsed_time = time.time() - toss_message_start_time
@@ -215,7 +228,8 @@ while True:
             left_score = find_score("Left", leftHand)[1]
             right_score = find_score("Right", rightHand)[1]
 
-            if left_score != 0 and right_score != 0 :
+            if not score_updated and left_score != 0 and right_score != 0 :
+                input_processed_time = time.time()
                 waitingForValidInput = False
                 #played_score = left_score if curr_batter == 'Left' else right_score
                 #opposing_score = right_score if curr_batter == 'Right' else left_score
@@ -238,7 +252,9 @@ while True:
                     scores[curr_batter] += left_score if curr_batter == 'Left' else right_score
                     if innings == 2 and scores[curr_batter] > first_innings_score:
                         gameOver = True
-                last_scored_time = currentTime
+                last_scored_time = input_processed_time + post_input_buffer
+                waitingForValidInput = True
+                score_updated = True
 
             else:
                 waitingForValidInput = True
@@ -265,10 +281,17 @@ while True:
 
     # Prompt users to show hand gestures after cool-down
     elif waitingForValidInput and not waiting_for_second_innings and not gameOver and game_start == 1 and toss_made:
-        cv2.putText(img, "Show your hand gestures now!", (100, 130), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 102, 255), 2)
+        time_left = cooldown_duration - (currentTime - last_scored_time)
+        if time_left >= 0 and time_left <= cooldown_duration:
+            cv2.putText(img, f"Get Ready... {int(time_left) + 1}", (150, 130), cv2.FONT_HERSHEY_SIMPLEX, 1.1, (0, 255, 255), 2)
+        elif time_left < 0:
+            cv2.putText(img, "Show your hand gestures now!", (100, 130), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 102, 255), 2)
+            score_updated = False
 
     if game_start == 1 and not waiting_for_second_innings and toss_made:  
         cv2.putText(img, f"Score : {scores[curr_batter]}", (20, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
+        cv2.putText(img, f"{curr_batter}'s Innings - {innings}st", (350, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
+
     
     if innings == 2:
         cv2.putText(img, f"Target : {first_innings_score + 1}", (20, 80), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 255), 2)
@@ -316,8 +339,10 @@ while True:
 
     elif key == ord('z') and game_start == 1 and not random_toss:           #Choosing random toss mode
         random_toss = True
-        tossing = True
+        tossing = False
+        toss_detected = False
         mode_of_toss_chosen = True
+        toss_choice_made = False
         toss_message_start_time = time.time()
 
     
@@ -346,16 +371,18 @@ while True:
 
 
     
-    elif manual_toss and not toss_choice_made and key == ord('h'):         #Left player chooses head
+    elif (manual_toss or random_toss) and not toss_choice_made and key == ord('h'):         #Left player chooses head
         left_choice = 'Heads'
         right_choice = 'Tails'
         toss_choice_made = True
+        tossing = True
         toss_message_start_time = time.time()
 
-    elif manual_toss and not toss_choice_made and key == ord('l'):         #Left player chooses tail
+    elif (manual_toss or random_toss) and not toss_choice_made and key == ord('t'):         #Left player chooses tail
         left_choice = 'Tails'
         right_choice = 'Heads'
         toss_choice_made = True
+        tossing = True
         toss_message_start_time = time.time()
 
     elif key == ord('q'):                                                  #Quit the game anytime
