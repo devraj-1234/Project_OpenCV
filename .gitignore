@@ -8,3 +8,4 @@ haarcascade_frontalface_default.xml
 filters.py
 finger_counting.py
 finger_counting_actual.py
+test_os.py
