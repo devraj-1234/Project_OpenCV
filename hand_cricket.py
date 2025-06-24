@@ -96,6 +96,7 @@ left_choice = ""                                    #To store Heads or Tails for
 post_input_buffer = 1.5                             #Buffer before countdown to move starts
 input_processed_time = 0                            #To evaluate time for the buffer above
 score_updated = False                               #Flag to check whether the score has been updated or not
+
 # Anti-Cheat Addition
 left_move_time = 0
 right_move_time = 0
