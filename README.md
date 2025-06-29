@@ -14,28 +14,31 @@ This repository contains four real-time Computer Vision applications built using
 ## 🔧 Requirements and Setup Instructions
 
 1. **Clone the repository**:
+
    ```bash
-   git clone https://github.com/devraj-1234/Computer-Vision.git
-   cd your-repo
+   git clone https://github.com/devraj-1234/Computer_Vision.git
+   cd Computer_Vision
    ```
 
 2. **Create a virtual environment**
+
    ```bash
    python -m venv venv
    ```
 
 3. **Activate the virtual environment**
-   
+
    **On Windows**
+
    ```bash
    .venv\Scripts\activate
    ```
 
    **On MacOS/Linux**
+
    ```bash
    source venv/bin/activate
    ```
-
 
 4. **Install all required dependencies**
 
@@ -53,6 +56,7 @@ python emotions.py               # For emotion recognition
 python hand_cricket.py           # For gesture-based hand cricket
 python gang_sign.py              # For gang sign typing system
 ```
+
 ---
 
 ## 🔧 Major Libraries Used
@@ -69,25 +73,29 @@ python gang_sign.py              # For gang sign typing system
 ## 🎮 Features
 
 ### 1. Background Remover + Hand Swipe (`with_bg_and_swipe.py`)
+
 - Removes the background using segmentation.
 - Allows users to swipe left/right (using hand gestures) to change the background image.
 - All backgrounds are stored in a list variable and can be customized.
 - More backgrounds can be added in the `backgrounds\` folder.
 
 ### 2. Facial Emotion Recognition (`emotions.py`)
+
 - Detects facial landmarks and classifies emotions into categories like **Happy**, **Sad**, **Angry**, etc.
 - Displays emoji or text feedback on the screen.
 - Useful for emotion-based UI/UX systems.
 
 ### 3. Hand Cricket Game (`hand_cricket.py`)
+
 - Two-player game inspired by childhood hand cricket.
 - Toss logic included (manual/random).
 - Uses gesture input for runs and choices (bat/ball).
 - Handles innings, scoring, and winner declaration.
 
 ### 4. Gang Sign Typing (`gang_sign.py`)
-- Detects custom hand signs. 
-- Preset gang signs are : 
+
+- Detects custom hand signs.
+- Preset gang signs are :
   - Yo 🤘
   - Fist ✊
   - Peace ✌️
@@ -102,9 +110,8 @@ python gang_sign.py              # For gang sign typing system
 - Displays corresponding PNG overlays in the top-left corner and types the respective emoji into the active textbox.
 - Cooldown mechanism avoids repeated detection spam.
 
-
 ---
 
-
 ## Hope you enjoy running and playing around with this project! 👾
+
 Feel free to contribute or suggest new features. 👍
