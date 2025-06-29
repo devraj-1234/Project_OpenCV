@@ -1,18 +1,18 @@
 import cv2
-import HandDetectorModule_1 as htm
+from modules.HandDetectorModule_1 import HandDetector as htm
 import mediapipe as mp
 import time
 import cvzone
 import os
 import numpy as np
 import math
-import pyperclip
 import pyautogui as pg
+import pyperclip
 
 
 
 cap = cv2.VideoCapture(0)                           #Getting the camera ready                                               
-hand_detector = htm.HandDetector()                  #Instancing the HandDetector class
+hand_detector = htm()                  #Instancing the HandDetector class
 folder_path = "gang_signs_overlays"                 #Folder containing signs' overlays
 last_trigger_time = 0                               #To store last time a gesture was registered, for cool-down purposes
 cooldown = 3                                        #Seconds for which the computer will not respond to gestures after a gesture is registered

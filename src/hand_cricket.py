@@ -1,14 +1,12 @@
 import cv2
-import HandDetectorModule_1 as htm
+from modules.HandDetectorModule_1 import HandDetector as htm
 import mediapipe as mp
 import time
 import cvzone
 import random
 
 cap = cv2.VideoCapture(0)                   #Camera capture
-hand_detector = htm.HandDetector()          #Instancing the HandDetector class
-
-
+hand_detector = htm()                       #Instancing the HandDetector class
 
 def find_score(label, handList):            #Function to evaluate score from hand gesture, label specifies hand position
     fingers = []

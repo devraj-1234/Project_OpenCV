@@ -11,15 +11,51 @@ This repository contains four real-time Computer Vision applications built using
 
 ---
 
-## 🔧 Requirements
+## 🔧 Requirements and Setup Instructions
 
-Install all required dependencies using:
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/devraj-1234/Computer-Vision.git
+   cd your-repo
+   ```
+
+2. **Create a virtual environment**
+   ```bash
+   python -m venv venv
+   ```
+
+3. **Activate the virtual environment**
+   
+   **On Windows**
+   ```bash
+   .venv\Scripts\activate
+   ```
+
+   **On MacOS/Linux**
+   ```bash
+   source venv/bin/activate
+   ```
+
+
+4. **Install all required dependencies**
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+---
+
+## 🚀 How to Run
 
 ```bash
-pip install -r requirements.txt
+python with_bg_and_swipe.py      # For background remover
+python emotions.py               # For emotion recognition
+python hand_cricket.py           # For gesture-based hand cricket
+python gang_sign.py              # For gang sign typing system
 ```
+---
 
-### 🔧 Major Libraries Used
+## 🔧 Major Libraries Used
 
 - `opencv-python` – For real-time video capture and image processing
 - `mediapipe` – For hand, face, and body landmark detection
@@ -67,17 +103,8 @@ pip install -r requirements.txt
 - Cooldown mechanism avoids repeated detection spam.
 
 
-
----
-## 🚀 How to Run
-
-```bash
-python with_bg_and_swipe.py      # For background remover
-python emotions.py               # For emotion recognition
-python hand_cricket.py           # For gesture-based hand cricket
-python gang_sign.py              # For gang sign typing system
-```
 ---
 
 
 ## Hope you enjoy running and playing around with this project! 👾
+Feel free to contribute or suggest new features. 👍

@@ -4,8 +4,8 @@ import mediapipe as mp
 import cvzone
 from cvzone.SelfiSegmentationModule import SelfiSegmentation
 import time
-import HandDetectorModule as htm
-import FaceDetectionModule as fdm
+from modules.HandDetectorModule import HandDetector as htm
+from modules.FaceDetectionModule import FaceDetector as fdm
 
 listImg = os.listdir("backgrounds")
 imgList = []
@@ -20,8 +20,8 @@ imgIndex = 0
 
 pTime = 0
 cap = cv2.VideoCapture(0)
-face_detector = fdm.FaceDetector()
-hand_detector = htm.HandDetector()
+face_detector = fdm()
+hand_detector = htm()
 segmentor = SelfiSegmentation()
 x_history = []
 max_history = 10
