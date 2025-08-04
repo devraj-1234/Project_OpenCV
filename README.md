@@ -1,117 +1,184 @@
-# 🧠 Computer Vision R&D Project 2025
+<div id="top"></div>
 
-This repository contains four real-time Computer Vision applications built using **Python**, **OpenCV**, and **MediaPipe**, aimed at demonstrating gesture and face-based interaction systems. These mini-projects cover a wide range of use-cases from gaming to emotion detection and interactive background manipulation.
+<!-- PROJECT SHIELDS -->
+<div align="center">
 
-## 📁 Project Structure
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
 
-- `with_bg_and_swipe.py` – Real-time **Background Removal** with hand swipe gestures to change background.
-- `emotions.py` – **Facial Emotion Recognition (FER)** using deep learning for real-time emotion classification.
-- `hand_cricket.py` – A two-player **Hand Cricket** game using gesture-based interaction.
-- `gang_sign.py` – **Gang Sign Typing** system that detects hand gestures and types corresponding words or overlays PNGs.
+</div>
+
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/devraj-1234/Computer_Vision">
+    <img width="140" alt="project logo" src="https://via.placeholder.com/140x140.png?text=CV+R%26D">
+  </a>
+
+  <h3 align="center">Computer Vision R&D Project 2025</h3>
+
+  <p align="center">
+    <i>Gesture and Emotion-based Real-Time Interaction Systems</i>
+  </p>
+</div>
 
 ---
 
-## 🔧 Requirements and Setup Instructions
+<details>
+<summary>📑 Table of Contents</summary>
 
-1. **Clone the repository**:
+- [About The Project](#about-the-project)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Usage](#usage)
+- [Contact](#contact)
+  - [Maintainer(s)](#maintainers)
+  - [Creator(s)](#creators)
+- [Additional Documentation](#additional-documentation)
 
+</details>
+
+---
+
+## 📌 About The Project
+
+<div align="center">
+  <img width="80%" alt="screenshot" src="https://via.placeholder.com/800x300.png?text=Computer+Vision+Showcase">
+</div>
+
+This repository contains four real-time Computer Vision mini-projects built using **Python**, **OpenCV**, and **MediaPipe**. These projects demonstrate gesture and face-based interaction systems for applications such as background manipulation, emotion detection, hand-gesture games, and gesture-based typing.
+
+### 🧠 Projects Overview
+
+- 🎭 **Background Remover with Hand Swipe** – Switch backgrounds via hand gestures.
+- 😊 **Facial Emotion Recognition** – Detect emotions and display emojis.
+- 🏏 **Hand Cricket Game** – Play cricket using hand gestures.
+- 🤟 **Gang Sign Typing System** – Detect signs and overlay PNGs or type emojis.
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+---
+
+## 🚀 Getting Started
+
+To set up a local instance of the application, follow these steps.
+
+### 🔧 Prerequisites
+
+- Python 3.8+
+- pip (Python package installer)
+
+### 📦 Installation
+
+1. Clone the repository:
    ```bash
    git clone https://github.com/devraj-1234/Computer_Vision.git
    cd Computer_Vision
    ```
 
-2. **Create a virtual environment**
-
+2. Create a virtual environment:
    ```bash
    python -m venv venv
    ```
 
-3. **Activate the virtual environment**
+3. Activate the virtual environment:
 
-   **On Windows**
-
+   **On Windows:**
    ```bash
-   .venv\Scripts\activate
+   .\venv\Scripts\activate
    ```
 
-   **On MacOS/Linux**
-
+   **On MacOS/Linux:**
    ```bash
    source venv/bin/activate
    ```
 
-4. **Install all required dependencies**
-
+4. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
 
+<p align="right">(<a href="#top">back to top</a>)</p>
+
 ---
 
-## 🚀 How to Run
+## 🎮 Usage
+
+### Run individual projects:
 
 ```bash
-python with_bg_and_swipe.py      # For background remover
-python emotions.py               # For emotion recognition
-python hand_cricket.py           # For gesture-based hand cricket
-python gang_sign.py              # For gang sign typing system
+python with_bg_and_swipe.py      # Background changer
+python emotions.py               # Facial emotion recognition
+python hand_cricket.py           # Gesture-based hand cricket
+python gang_sign.py              # Gang sign to emoji/PNG typer
 ```
 
----
+### 🛠 Major Libraries Used
 
-## 🔧 Major Libraries Used
+- `opencv-python` – Image processing
+- `mediapipe` – Landmark detection
+- `tensorflow`, `keras` – Emotion classification
+- `numpy`, `os`, `random`, `time` – Utilities
+- `cvzone` – Drawing overlays and helpers
 
-- `opencv-python` – For real-time video capture and image processing
-- `mediapipe` – For hand, face, and body landmark detection
-- `numpy` – For numerical operations
-- `tensorflow` / `keras` – For facial emotion classification model
-- `cvzone` – Optional utilities for drawing and overlays
-- `os`, `time`, `random` – Standard libraries for logic control and file management
+### 🧩 Features Summary
 
----
+#### 1. Background Remover + Hand Swipe
+- Segment person from background
+- Change background via left/right swipe gestures
+- Customizable `backgrounds/` folder
 
-## 🎮 Features
+#### 2. Facial Emotion Recognition
+- Detects face and classifies emotions: Happy, Sad, Angry, etc.
+- Displays emojis or text overlay
 
-### 1. Background Remover + Hand Swipe (`with_bg_and_swipe.py`)
+#### 3. Hand Cricket Game
+- 2-player game using hand gestures
+- Toss system (manual/random)
+- Tracks innings, scores, winner
 
-- Removes the background using segmentation.
-- Allows users to swipe left/right (using hand gestures) to change the background image.
-- All backgrounds are stored in a list variable and can be customized.
-- More backgrounds can be added in the `backgrounds\` folder.
+#### 4. Gang Sign Typing System
+- Detects signs like: ✌️ 🤘 👋 👌 👍 ✊ 🤙 🔫 etc.
+- Types emoji or overlays PNG in real time
+- Cooldown to prevent repeated input
 
-### 2. Facial Emotion Recognition (`emotions.py`)
-
-- Detects facial landmarks and classifies emotions into categories like **Happy**, **Sad**, **Angry**, etc.
-- Displays emoji or text feedback on the screen.
-- Useful for emotion-based UI/UX systems.
-
-### 3. Hand Cricket Game (`hand_cricket.py`)
-
-- Two-player game inspired by childhood hand cricket.
-- Toss logic included (manual/random).
-- Uses gesture input for runs and choices (bat/ball).
-- Handles innings, scoring, and winner declaration.
-
-### 4. Gang Sign Typing (`gang_sign.py`)
-
-- Detects custom hand signs.
-- Preset gang signs are :
-  - Yo 🤘
-  - Fist ✊
-  - Peace ✌️
-  - Hello/Waving 👋
-  - Point up 👆
-  - Ok 👌
-  - Fingers crossed 🤞
-  - Thumbs up 👍
-  - Gun 🔫
-  - Call/Shaka 🤙
-  - Thumbs down 👎
-- Displays corresponding PNG overlays in the top-left corner and types the respective emoji into the active textbox.
-- Cooldown mechanism avoids repeated detection spam.
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ---
 
-## Hope you enjoy running and playing around with this project! 👾
+## 👨‍💻 Contact
 
-Feel free to contribute or suggest new features. 👍
+### Maintainer(s)
+- [Dev Raj](https://github.com/devraj-1234)
+
+### Creator(s)
+- [Dev Raj](https://github.com/devraj-1234)
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+---
+
+## 📄 Additional Documentation
+
+- [License](/LICENSE)
+- [Code of Conduct](/.github/CODE_OF_CONDUCT.md)
+- [Security Policy](/.github/SECURITY.md)
+- [Contribution Guidelines](/.github/CONTRIBUTING.md)
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+<!-- MARKDOWN LINKS & IMAGES -->
+[contributors-shield]: https://img.shields.io/github/contributors/devraj-1234/Computer_Vision.svg?style=for-the-badge
+[contributors-url]: https://github.com/devraj-1234/Computer_Vision/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/devraj-1234/Computer_Vision.svg?style=for-the-badge
+[forks-url]: https://github.com/devraj-1234/Computer_Vision/network/members
+[stars-shield]: https://img.shields.io/github/stars/devraj-1234/Computer_Vision.svg?style=for-the-badge
+[stars-url]: https://github.com/devraj-1234/Computer_Vision/stargazers
+[issues-shield]: https://img.shields.io/github/issues/devraj-1234/Computer_Vision.svg?style=for-the-badge
+[issues-url]: https://github.com/devraj-1234/Computer_Vision/issues
+[license-shield]: https://img.shields.io/github/license/devraj-1234/Computer_Vision.svg?style=for-the-badge
+[license-url]: https://github.com/devraj-1234/Computer_Vision/blob/main/LICENSE
