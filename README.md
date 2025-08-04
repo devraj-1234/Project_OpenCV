@@ -15,7 +15,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/devraj-1234/Computer_Vision">
-    <img width="140" alt="project logo" src="https://via.placeholder.com/140x140.png?text=CV+R%26D">
+    <img width="140" alt="project logo" src="/.github/logo.png">
   </a>
 
   <h3 align="center">Computer Vision R&D Project 2025</h3>
@@ -75,12 +75,14 @@ To set up a local instance of the application, follow these steps.
 ### 📦 Installation
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/devraj-1234/Computer_Vision.git
    cd Computer_Vision
    ```
 
 2. Create a virtual environment:
+
    ```bash
    python -m venv venv
    ```
@@ -88,11 +90,13 @@ To set up a local instance of the application, follow these steps.
 3. Activate the virtual environment:
 
    **On Windows:**
+
    ```bash
    .\venv\Scripts\activate
    ```
 
    **On MacOS/Linux:**
+
    ```bash
    source venv/bin/activate
    ```
@@ -128,20 +132,24 @@ python gang_sign.py              # Gang sign to emoji/PNG typer
 ### 🧩 Features Summary
 
 #### 1. Background Remover + Hand Swipe
+
 - Segment person from background
 - Change background via left/right swipe gestures
 - Customizable `backgrounds/` folder
 
 #### 2. Facial Emotion Recognition
+
 - Detects face and classifies emotions: Happy, Sad, Angry, etc.
 - Displays emojis or text overlay
 
 #### 3. Hand Cricket Game
+
 - 2-player game using hand gestures
 - Toss system (manual/random)
 - Tracks innings, scores, winner
 
 #### 4. Gang Sign Typing System
+
 - Detects signs like: ✌️ 🤘 👋 👌 👍 ✊ 🤙 🔫 etc.
 - Types emoji or overlays PNG in real time
 - Cooldown to prevent repeated input
@@ -153,9 +161,11 @@ python gang_sign.py              # Gang sign to emoji/PNG typer
 ## 👨‍💻 Contact
 
 ### Maintainer(s)
+
 - [Dev Raj](https://github.com/devraj-1234)
 
 ### Creator(s)
+
 - [Dev Raj](https://github.com/devraj-1234)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -172,6 +182,7 @@ python gang_sign.py              # Gang sign to emoji/PNG typer
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
+
 [contributors-shield]: https://img.shields.io/github/contributors/devraj-1234/Computer_Vision.svg?style=for-the-badge
 [contributors-url]: https://github.com/devraj-1234/Computer_Vision/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/devraj-1234/Computer_Vision.svg?style=for-the-badge
