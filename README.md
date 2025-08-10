@@ -170,7 +170,7 @@ python gang_sign.py              # Gang sign to emoji/PNG typer
 
 ## Additional Documentation
 
-- [License](/LICENSE)
+- [License](/LICENSE.md)
 - [Code of Conduct](/.github/CODE_OF_CONDUCT.md)
 - [Security Policy](/.github/SECURITY.md)
 - [Contribution Guidelines](/.github/CONTRIBUTING.md)
