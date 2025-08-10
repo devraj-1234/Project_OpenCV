@@ -57,7 +57,7 @@ This repository contains four real-time Computer Vision mini-projects built usin
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
----
+
 
 ## Getting Started
 
@@ -104,7 +104,7 @@ To set up a local instance of the application, follow these steps.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
----
+
 
 ## Usage
 
@@ -152,7 +152,7 @@ python gang_sign.py              # Gang sign to emoji/PNG typer
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
----
+
 
 ## Contact
 
@@ -166,7 +166,6 @@ python gang_sign.py              # Gang sign to emoji/PNG typer
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
----
 
 ## Additional Documentation
 
