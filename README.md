@@ -188,4 +188,4 @@ python gang_sign.py              # Gang sign to emoji/PNG typer
 [issues-shield]: https://img.shields.io/github/issues/devraj-1234/Computer_Vision.svg?style=for-the-badge
 [issues-url]: https://github.com/devraj-1234/Computer_Vision/issues
 [license-shield]: https://img.shields.io/github/license/devraj-1234/Computer_Vision.svg?style=for-the-badge
-[license-url]: https://github.com/devraj-1234/Computer_Vision/blob/main/LICENSE
+[license-url]: https://github.com/devraj-1234/Computer_Vision/blob/main/LICENSE.md
