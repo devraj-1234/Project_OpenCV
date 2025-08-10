@@ -25,10 +25,9 @@
   </p>
 </div>
 
----
 
 <details>
-<summary>📑 Table of Contents</summary>
+<summary>Table of Contents</summary>
 
 - [About The Project](#about-the-project)
 - [Getting Started](#getting-started)
@@ -42,28 +41,25 @@
 
 </details>
 
----
 
-## 📌 About The Project
 
-<div align="center">
-  <img width="80%" alt="screenshot" src="https://via.placeholder.com/800x300.png?text=Computer+Vision+Showcase">
-</div>
+### About The Project
+
 
 This repository contains four real-time Computer Vision mini-projects built using **Python**, **OpenCV**, and **MediaPipe**. These projects demonstrate gesture and face-based interaction systems for applications such as background manipulation, emotion detection, hand-gesture games, and gesture-based typing.
 
-### 🧠 Projects Overview
+### Projects Overview
 
-- 🎭 **Background Remover with Hand Swipe** – Switch backgrounds via hand gestures.
-- 😊 **Facial Emotion Recognition** – Detect emotions and display emojis.
-- 🏏 **Hand Cricket Game** – Play cricket using hand gestures.
-- 🤟 **Gang Sign Typing System** – Detect signs and overlay PNGs or type emojis.
+- **Background Remover with Hand Swipe** – Switch backgrounds via hand gestures.
+- **Facial Emotion Recognition** – Detect emotions and display emojis.
+- **Hand Cricket Game** – Play cricket using hand gestures.
+- **Gang Sign Typing System** – Detect signs and overlay PNGs or type emojis.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 To set up a local instance of the application, follow these steps.
 
@@ -72,7 +68,7 @@ To set up a local instance of the application, follow these steps.
 - Python 3.8+
 - pip (Python package installer)
 
-### 📦 Installation
+### Installation
 
 1. Clone the repository:
 
@@ -110,7 +106,7 @@ To set up a local instance of the application, follow these steps.
 
 ---
 
-## 🎮 Usage
+## Usage
 
 ### Run individual projects:
 
@@ -121,7 +117,7 @@ python hand_cricket.py           # Gesture-based hand cricket
 python gang_sign.py              # Gang sign to emoji/PNG typer
 ```
 
-### 🛠 Major Libraries Used
+### Major Libraries Used
 
 - `opencv-python` – Image processing
 - `mediapipe` – Landmark detection
@@ -129,7 +125,7 @@ python gang_sign.py              # Gang sign to emoji/PNG typer
 - `numpy`, `os`, `random`, `time` – Utilities
 - `cvzone` – Drawing overlays and helpers
 
-### 🧩 Features Summary
+### Features Summary
 
 #### 1. Background Remover + Hand Swipe
 
@@ -158,7 +154,7 @@ python gang_sign.py              # Gang sign to emoji/PNG typer
 
 ---
 
-## 👨‍💻 Contact
+## Contact
 
 ### Maintainer(s)
 
@@ -172,7 +168,7 @@ python gang_sign.py              # Gang sign to emoji/PNG typer
 
 ---
 
-## 📄 Additional Documentation
+## Additional Documentation
 
 - [License](/LICENSE)
 - [Code of Conduct](/.github/CODE_OF_CONDUCT.md)
